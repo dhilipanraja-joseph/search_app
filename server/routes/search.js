@@ -1,7 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const amazon = require('amazon-product-api');
 
+const client = amazon.createClient({
+  awsId :'AKIAIBBXDTUIDKZXHZ3Q',
+  awsSecret : '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',
+  awsTag : 'dlipnraj-20'
+});
 
 router.route('/ebay/:query')
       .get((req, res) => {
@@ -22,10 +28,13 @@ router.route('/ebay/:query')
 
 router.route('/amazon/:query')
       .get((req,res)=>{
-        axios.get()
-              .then(response=>{
-                console.log(response.data);
-              })
+        client.itemSearch({
+          Keywords : req.params.query
+        })
+        .then(results=>{
+          res.send(results);
+        })
+        .catch(err=>console.log(err))
       })
 
 router.route('/walmart/:query')
