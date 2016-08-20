@@ -28,7 +28,7 @@ export default class SearchForm extends Component {
     return (
       <div>
         <form onSubmit={this.submit}>
-          <input type="text" value={this.state.search} onChange={this.changeSearchInput} placeholder="Search"/>
+          <input type="text" value={this.state.search} onChange={this.changeSearchInput}/>
           <button type="submit">Search</button>
         </form>
       </div>
