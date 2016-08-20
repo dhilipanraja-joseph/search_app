@@ -36,25 +36,32 @@ export default class SearchResult extends Component{
   }
 
   render(){
-    const SearchItems = this.state.results.map(result=>{
-      return (
-        <SearchList key={uuid()} {...result}/>
-      )
-    });
-    return(
-      <table className='table'>
-       <thead>
-         <tr>
-           <th></th>
-           <th>Items</th>
-           <th onClick={this.sortByPrice}>Price</th>
-           <th>From</th>
-         </tr>
-       </thead>
-       <tbody>
-         {SearchItems}
-       </tbody>
-     </table>
-    )
+      if(this.state.results.length == 0){
+        return (
+          <div></div>
+        );
+      }else{
+        const SearchItems = this.state.results.map(result=>{
+          return (
+            <SearchList key={uuid()} {...result}/>
+          )
+        });
+        return(
+          <table className='table'>
+          <thead>
+          <tr>
+          <th></th>
+          <th>Items</th>
+          <th onClick={this.sortByPrice}>Price</th>
+          <th>From</th>
+          </tr>
+          </thead>
+          <tbody>
+          {SearchItems}
+          </tbody>
+          </table>
+        )
+
+      }
   }
 }
