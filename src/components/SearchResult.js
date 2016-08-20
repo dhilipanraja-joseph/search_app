@@ -12,6 +12,15 @@ export default class SearchResult extends Component{
       results: SearchStore.getAll()
     }
     this._onChange = this._onChange.bind(this);
+    this.sortByPrice = this.sortByPrice.bind(this);
+  }
+
+  sortByPrice(){
+    //console.log('sorting:',this.state.results);
+    this.setState({
+      results : this.state.results.sort((a,b)=>a.price - b.price)
+    });
+
   }
 
   componentDidMount(){
@@ -36,8 +45,9 @@ export default class SearchResult extends Component{
       <table className='table'>
        <thead>
          <tr>
-           <th>Searched Results</th>
-           <th>Price</th>
+           <th></th>
+           <th>Items</th>
+           <th onClick={this.sortByPrice}>Price</th>
            <th>From</th>
          </tr>
        </thead>

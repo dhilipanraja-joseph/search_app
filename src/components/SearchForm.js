@@ -18,7 +18,7 @@ export default class SearchForm extends Component {
   submit(e) {
     e.preventDefault();
     let { search } = this.state;
-    SearchActions.getEbaySearch(search);
+    SearchActions.getEbay(search);
     //console.log('search:',search);
     this.setState({search: ''});
   }

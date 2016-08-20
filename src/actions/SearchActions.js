@@ -2,7 +2,7 @@ import AppDispatcher from '../AppDispatcher'
 import API from '../API'
 
 const SeachActions={
-  getEbaySearch : API.getEbaySearch,
+  getEbay: API.getEbay,
 }
 
 export default SeachActions

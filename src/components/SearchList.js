@@ -5,13 +5,14 @@ export default class SearchList extends Component{
     super();
   }
   render(){
-    let { title  , sellingStatus , viewItemURL } = this.props;
+    let { name  , price , imgLink , link ,from} = this.props;
     //console.log(itemId[0]);
     return(
       <tr>
-        <td>{title}</td>
-        <td>${sellingStatus[0].currentPrice[0].__value__}</td>
-        <td><a target="_blank" href={viewItemURL}>LINK</a></td>
+        <td><img src={imgLink} alt="NO IMAGE IN GALLERY"/></td>
+        <td>{name}</td>
+        <td>${price}</td>
+        <td><a target="_blank" href={link}>{from}</a></td>
       </tr>
     )
   }
