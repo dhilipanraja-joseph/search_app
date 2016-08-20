@@ -29,9 +29,29 @@ router.route('/ebay/:query')
 router.route('/amazon/:query')
       .get((req,res)=>{
         client.itemSearch({
-          Keywords : req.params.query
+          Keywords : req.params.query,
+          responseGroup: 'ItemAttributes,Offers,Images'
         })
-        .then(results=>{
+        .then(a_results=>{
+          let results = a_results.map(result=>{
+            let price,imgLink,
+                name = result.ItemAttributes[0].Title[0],
+                link = result.DetailPageURL[0];
+
+            if(!result.MediumImage){
+              imgLink = '';
+            }else{
+              imgLink = result.MediumImage[0].URL[0];
+            }
+
+            if(!result.ItemAttributes[0].ListPrice){
+              price = 'N/A'
+            }else{
+              price = Math.floor(result.ItemAttributes[0].ListPrice[0].Amount/100);
+            }
+            return {name , price , link , imgLink , from : 'amazon'}
+          });
+          //console.log(results);
           res.send(results);
         })
         .catch(err=>console.log(err))
@@ -54,14 +74,5 @@ router.route('/walmart/:query')
               .catch(err => console.log(err));
       })
 
-function getSignatureKey(key, dateStamp, regionName, serviceName) {
-
-   var kDate= Crypto.HMAC(Crypto.SHA256, dateStamp, "AWS4" + key, { asBytes: true})
-   var kRegion= Crypto.HMAC(Crypto.SHA256, regionName, kDate, { asBytes: true });
-   var kService=Crypto.HMAC(Crypto.SHA256, serviceName, kRegion, { asBytes: true });
-   var kSigning= Crypto.HMAC(Crypto.SHA256, "aws4_request", kService, { asBytes: true });
-
-   return kSigning;
-}
 
 module.exports = router;
