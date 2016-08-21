@@ -6,7 +6,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="container text-center">
-        <h1 className="text-center">Search App</h1>
+        <h1 className="text-center">Pricer App</h1>
         <SearchForm/>
         <SearchResult/>
       </div>

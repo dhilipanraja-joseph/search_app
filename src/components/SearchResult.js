@@ -9,7 +9,8 @@ export default class SearchResult extends Component{
   constructor(){
     super();
     this.state={
-      results: SearchStore.getAll()
+      results: SearchStore.getAll(),
+      status : SearchStore.getStatus()
     }
     this._onChange = this._onChange.bind(this);
     this.sortByPrice = this.sortByPrice.bind(this);
@@ -37,8 +38,9 @@ export default class SearchResult extends Component{
 
   render(){
       if(this.state.results.length == 0){
+        console.log(this.state.status);
         return (
-          <div></div>
+          <div>{this.state.status}</div>
         );
       }else{
         const SearchItems = this.state.results.map(result=>{
