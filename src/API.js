@@ -17,6 +17,10 @@ const API = {
         return axios.get(`/api/search/amazon/${search}`)
                     .then(res=>res.data)
       }
+      function craigslist(search){
+        return axios.get(`/api/search/craigslist/${search}`)
+                    .then(res=>res.data)
+      }
       // function loading(){
       //   //console.log('loading');
       //   AppDispatcher.dispatch({
@@ -25,9 +29,9 @@ const API = {
       //   })
       // }
       // console.log(axios);
-      Promise.all([ebay(search),walmart(search),amazon(search)])
-              .then(([result1,result2,result3])=>{
-                return result1.concat(result2,result3)
+      Promise.all([ebay(search),walmart(search),amazon(search),craigslist(search)])
+              .then(([result1,result2,result3,result4])=>{
+                return result1.concat(result2,result3,result4)
               })
               .then(results=>{
                   AppDispatcher.dispatch({

@@ -3,6 +3,9 @@ const router = express.Router();
 const axios = require('axios');
 const amazon = require('amazon-product-api');
 const client = require('./AmazonAPI');
+const cheerio = require('cheerio');
+
+
 router.route('/ebay/:query')
       .get((req, res) => {
         axios.get(`http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=Dhilipan-SearchAp-PRD-c9a67cc35-14bbe1c9&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=25&keywords=${req.params.query}`)
@@ -68,5 +71,31 @@ router.route('/walmart/:query')
               .catch(err => console.log(err));
       })
 
+router.route('/craigslist/:query')
+      .get((req,res)=>{
+        axios.get(`https://sfbay.craigslist.org/search/sss?query=${req.params.query}`)
+              .then(response=>{
+                //let json = response.data;
+                let $=cheerio.load(response.data);
+                let results=[],imglinkURL;
+                for (let i=0 ; i<25 ; i++){
+                  let name = $('#titletextonly').eq(i).text();
+                  let price = $('.price').eq(i).text().slice(1);
+                  let imglinkURL = $('.gallery').eq(i).attr('data-ids');
+                  if(!imglinkURL){
+                    imgLink = '';
+                  }else{
+                    let img = imglinkURL.split(',');
+                    imgLink = 'https://images.craigslist.org/'+img[0].slice(2)+'_300x300.jpg'
+                  }
+                  let link = 'https://sfbay.craigslist.org'+$('.i').eq(i).attr('href');
+                  results.push({name , price , imgLink ,link ,from : 'craigslist'});
+                }
+
+              return results;
+             })
+             .then(result=>res.send(result))
+             .catch(err=>console.log(err))
+      })
 
 module.exports = router;
