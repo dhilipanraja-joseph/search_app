@@ -17,15 +17,15 @@ const API = {
         return axios.get(`/api/search/amazon/${search}`)
                     .then(res=>res.data)
       }
-      function loading(){
-        //console.log('loading');
-        AppDispatcher.dispatch({
-          type: 'GETTING_DATA',
-          status : 'Loading...'
-        })
-      }
+      // function loading(){
+      //   //console.log('loading');
+      //   AppDispatcher.dispatch({
+      //     type: 'GETTING_DATA',
+      //     status : 'Loading...'
+      //   })
+      // }
       // console.log(axios);
-      Promise.all([ebay(search),walmart(search),amazon(search),loading()])
+      Promise.all([ebay(search),walmart(search),amazon(search)])
               .then(([result1,result2,result3])=>{
                 return result1.concat(result2,result3)
               })

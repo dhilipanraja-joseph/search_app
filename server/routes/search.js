@@ -2,13 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const amazon = require('amazon-product-api');
-
-const client = amazon.createClient({
-  awsId :'AKIAIBBXDTUIDKZXHZ3Q',
-  awsSecret : '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',
-  awsTag : 'dlipnraj-20'
-});
-
+const client = require('./AmazonAPI');
 router.route('/ebay/:query')
       .get((req, res) => {
         axios.get(`http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=Dhilipan-SearchAp-PRD-c9a67cc35-14bbe1c9&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&paginationInput.entriesPerPage=25&keywords=${req.params.query}`)
@@ -54,7 +48,7 @@ router.route('/amazon/:query')
           //console.log(results);
           res.send(results);
         })
-        .catch(err=>console.log(err))
+        .catch(err=>res.send(err))
       })
 
 router.route('/walmart/:query')
